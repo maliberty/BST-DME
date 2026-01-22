@@ -50,7 +50,7 @@ template <typename NN, typename NNDD, bool DOCHECK>
 class F_Box
 {
  public:
-  F_Box(void) {}  // Empty ranges
+  F_Box {}  // Empty ranges
 
   template <bool CK>
   F_Box(const F_Coord<NN, NNDD, CK>& p)

@@ -49,7 +49,7 @@ class F_Interval
 {
  public:
   /* constructor */
-  F_Interval(void)
+  F_Interval
   {
     m_bound[Low] = 1;
     m_bound[High] = 0;
@@ -74,9 +74,9 @@ class F_Interval
   }
 
   /* member function */
-  bool IsEmpty(void) const { return m_bound[Low] > m_bound[High]; }
+  bool IsEmpty const { return m_bound[Low] > m_bound[High]; }
 
-  bool IsPoint(void) const { return m_bound[Low] == m_bound[High]; }
+  bool IsPoint const { return m_bound[Low] == m_bound[High]; }
   void Enclose(NN n)
   {
     if (IsEmpty()) {
@@ -103,7 +103,7 @@ class F_Interval
     return p[Low] >= m_bound[Low] && p[High] <= m_bound[High];
   }
 
-  NN Width(void) const
+  NN Width const
   {
     if (IsEmpty()) {
       return 0;
