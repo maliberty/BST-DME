@@ -907,8 +907,8 @@ static void generate_terminals(char fn[], int max_coor, int n_sinks)
     if (pt_outside_rectangles(&pt)) {
       fprintf(out, "Sink : %d  \n", i);
       fprintf(out, "     Coordinate : %d  %d \n", (int) pt.x, (int) pt.y);
-      fprintf(out, "     Capacitive Load : 5.0e-13\n");
-      fprintf(out, "     Downstream_Delay: 0.0e-12\n");
+      fprintf(out, "     Capacitive Load  : 5.0e-13\n");
+      fprintf(out, "     Downstream_Delay : 0.0e-12\n");
       // fprintf(out,"%d  %d  %d 5.0e-13\n",i, (int) pt.x,(int) pt.y);
       i++;
     }
