@@ -20,16 +20,16 @@
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-// FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-// CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-// OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
 ///////////////////////////////////////////////////////////////////////////////
-
 
 /*
 #**************************************************************************
@@ -40,130 +40,127 @@
 #**************************************************************************
 */
 
-#include <stdio.h>
 #include <float.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "bstdme.h"
 #include "facility.h"
-#include <string.h>
-#include <stdlib.h>
 using namespace std;
-
 
 /**********************************************************************/
 /* Copyright (C) 1994-2000  by Andrew B. Kahng, C.-W. Albert Tsao    */
 /**********************************************************************/
-void tPrintTotalLength (
-  const BST_DME &tree
-) {
-  double wire = tree.TotalLength () ;
+void tPrintTotalLength(const BST_DME& tree)
+{
+  double wire = tree.TotalLength();
 
-  printf("=================================\n" );
-  iShowTime () ;
-  printf("\n" );
+  printf("=================================\n");
+  iShowTime();
+  printf("\n");
   printf("Total wirelength: %f\n", wire);
-  printf("=================================\n" );
+  printf("=================================\n");
 }
 
 /****************************************************************************/
 /*   parse arguments                                                        */
 /****************************************************************************/
-unsigned parse_argument( unsigned argc, char *argv[], 
-  string &inputSinksFileName ,     
-  string &inputTopologyFileName ,     
-  string &inputObstructionFileName ,
-  double  &skewBound ,     
-  BST_DME::DelayModelType   &delayModel      
-) {
-unsigned nterms = 0 ;
-  
-  for (unsigned i=1;i<argc;i++) {
-    if (strcmp("-i",argv[i]) == 0)  {
+unsigned parse_argument(unsigned argc,
+                        char* argv[],
+                        string& inputSinksFileName,
+                        string& inputTopologyFileName,
+                        string& inputObstructionFileName,
+                        double& skewBound,
+                        BST_DME::DelayModelType& delayModel)
+{
+  unsigned nterms = 0;
+
+  for (unsigned i = 1; i < argc; i++) {
+    if (strcmp("-i", argv[i]) == 0) {
       i++;
-      inputSinksFileName = argv[i] ;
-    } else if (strcmp("-G",argv[i]) == 0)  {
+      inputSinksFileName = argv[i];
+    } else if (strcmp("-G", argv[i]) == 0) {
       i++;
-      inputTopologyFileName = argv[i] ;
-    } else if (strcmp("-O",argv[i]) == 0)  { // not complete yet
+      inputTopologyFileName = argv[i];
+    } else if (strcmp("-O", argv[i]) == 0) {  // not complete yet
       i++;
-      inputObstructionFileName = argv[i] ;
-    } else if (strcmp("-N",argv[i]) == 0)  { // to generate random testcase
+      inputObstructionFileName = argv[i];
+    } else if (strcmp("-N", argv[i]) == 0) {  // to generate random testcase
       i++;
-      sscanf(argv[i],"%d",&nterms);
-    } else if (strcmp("-D",argv[i]) == 0)  { // for delay model
+      sscanf(argv[i], "%d", &nterms);
+    } else if (strcmp("-D", argv[i]) == 0) {  // for delay model
       i++;
-      unsigned model ;
-      sscanf(argv[i],"%d",& model );
-      delayModel = (BST_DME::DelayModelType ) model ;
-    } else if (strcmp("-B",argv[i]) == 0)  { // for skew bound
+      unsigned model;
+      sscanf(argv[i], "%d", &model);
+      delayModel = (BST_DME::DelayModelType) model;
+    } else if (strcmp("-B", argv[i]) == 0) {  // for skew bound
       i++;
-      sscanf(argv[i],"%lf",& skewBound);
-      if ( skewBound < 0) { 
-         skewBound = DBL_MAX; 
-      } 
+      sscanf(argv[i], "%lf", &skewBound);
+      if (skewBound < 0) {
+        skewBound = DBL_MAX;
+      }
     } else {
-      printf("Argument %d incorrect\n",i);
+      printf("Argument %d incorrect\n", i);
       exit(0);
     }
   }
 
-  return nterms ;
+  return nterms;
 }
 
-const string bstusage = 
-    "usage: bst -i inputFileName -B number (pico-seconds) \n"    ; 
+const string bstusage
+    = "usage: bst -i inputFileName -B number (pico-seconds) \n";
 
 /**********************************************************************/
 /* Copyright (C) 1994-2000  by Andrew B. Kahng, C.-W. Albert Tsao    */
 /**********************************************************************/
-static
-void bstsVersion () {
-  const string lin = 
-   "**********************************************************************\n" ;
+static void bstsVersion()
+{
+  const string lin
+      = "**********************************************************************"
+        "\n";
   const string msg = 
       lin   
     + "* Version BSTsource1.1 ,  05-11-2002                                          *\n"   
     + "* Copyright (C) 1994-2002  by Andrew B. Kahng, C.-W. Albert Tsao              *\n"   
     +  lin  
-    ; 
-  cout << msg << endl ;
+    ;
+  cout << msg << endl;
 }
 /**********************************************************************/
 /* Copyright (C) 1994-2000  by Andrew B. Kahng, C.-W. Albert Tsao    */
 /**********************************************************************/
-int 
-main(int argc, char *argv[]) {
+int main(int argc, char* argv[])
+{
+  bstsVersion();
 
-  bstsVersion () ;
+  string inputSinksFileName = "";  // mandatory
+  string inputTopologyFileName = "";
+  string inputObstructionFileName = "";
+  double skewBound = 0;
+  BST_DME::DelayModelType delayModel = BST_DME::ELMOREMODEL;
 
-string inputSinksFileName = "" ; // mandatory
-string inputTopologyFileName = "" ;
-string inputObstructionFileName = "" ;
-double  skewBound = 0 ;
-BST_DME::DelayModelType delayModel = BST_DME::ELMOREMODEL;
+  unsigned nterms = parse_argument(argc,
+                                   argv,
+                                   inputSinksFileName,
+                                   inputTopologyFileName,
+                                   inputObstructionFileName,
+                                   skewBound,
+                                   delayModel);
 
-     unsigned nterms = parse_argument (argc, argv, 
-                      inputSinksFileName,
-                      inputTopologyFileName, 
-                      inputObstructionFileName,
-                      skewBound,
-                      delayModel
-                      );
-
-
-  if ( nterms ) { // generate testcase only 
-    BST_GenTestcase::GenerateTestcase( nterms ) ;
-  } else if ( inputSinksFileName.empty() ) { // mandatory 
-     cout << bstusage << endl ;
-     exit (0 ) ;
+  if (nterms) {  // generate testcase only
+    BST_GenTestcase::GenerateTestcase(nterms);
+  } else if (inputSinksFileName.empty()) {  // mandatory
+    cout << bstusage << endl;
+    exit(0);
   } else {
-    BST_DME tree (inputSinksFileName,
-                inputTopologyFileName,
-                inputObstructionFileName,
-                skewBound,
-                delayModel ) ;
-    tree.ConstructTree() ;
-    tPrintTotalLength ( tree ) ;
+    BST_DME tree(inputSinksFileName,
+                 inputTopologyFileName,
+                 inputObstructionFileName,
+                 skewBound,
+                 delayModel);
+    tree.ConstructTree();
+    tPrintTotalLength(tree);
   }
-
-
 }

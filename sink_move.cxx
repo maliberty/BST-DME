@@ -20,16 +20,16 @@
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-// FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-// CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-// OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
 ///////////////////////////////////////////////////////////////////////////////
-
 
 /*
 #**************************************************************************
@@ -40,44 +40,43 @@
 #**************************************************************************
 */
 
-
-#include "bst_header.h"
 #include "Global_var.h"
+#include "bst_header.h"
 
-extern double pt2ms_distance(PointType *pt, TrrType *ms);
+extern double pt2ms_distance(PointType* pt, TrrType* ms);
 
-extern void make_intersect( TrrType *trr1, TrrType *trr2, TrrType *t );
-extern void core_mid_point(TrrType *trr, PointType *p);
-extern void make_core(TrrType *trr,TrrType *core);
-
+extern void make_intersect(TrrType* trr1, TrrType* trr2, TrrType* t);
+extern void core_mid_point(TrrType* trr, PointType* p);
+extern void make_core(TrrType* trr, TrrType* core);
 
 /********************************************************************/
 /*                                                                  */
 /********************************************************************/
-int sink_move_compare_inc(const void *a, const void *b) {
+int sink_move_compare_inc(const void* a, const void* b)
+{
+  PairType* p = (PairType*) a;
+  PairType* q = (PairType*) b;
 
-   PairType *p = (PairType *) a;
-   PairType *q = (PairType *) b;
-
-   return( (p->cost > q->cost) ? YES: NO);
+  return ((p->cost > q->cost) ? YES : NO);
 }
 
 /********************************************************************/
 /*                                                                  */
 /********************************************************************/
-void _calc_cluster_center(int cid, TrrType *ms) {
-TrrType temp;
+void _calc_cluster_center(int cid, TrrType* ms)
+{
+  TrrType temp;
 
   double r = INT_MAX;
-  unsigned n = 0; 
-  unsigned npoints = gBoundedSkewTree->Npoints() ;
-  for (unsigned i=0;i<npoints;++i) {
-    PointType &qt = Node[ i   ].m_stnPt ;
+  unsigned n = 0;
+  unsigned npoints = gBoundedSkewTree->Npoints();
+  for (unsigned i = 0; i < npoints; ++i) {
+    PointType& qt = Node[i].m_stnPt;
     if (cid == Cluster_id[i]) {
-      if (n==0) {
-        ms->MakeDiamond (  qt     , r);
+      if (n == 0) {
+        ms->MakeDiamond(qt, r);
       } else {
-        temp.MakeDiamond (  qt     , r);
+        temp.MakeDiamond(qt, r);
         make_intersect(ms, &temp, ms);
       }
       n++;
@@ -89,45 +88,46 @@ TrrType temp;
 /********************************************************************/
 /*  calc neighbors of cluster cid.                                  */
 /********************************************************************/
-int _calc_cluster_neighbors(int cid, PairType pair[], int size) {
-int i, n;
-TrrType ms;
+int _calc_cluster_neighbors(int cid, PairType pair[], int size)
+{
+  int i, n;
+  TrrType ms;
 
   n = 0;
-  _calc_cluster_center(cid,  &ms);
-  int nterms = (int) gBoundedSkewTree->Nterms() ;
-  for (i=0;i<nterms;++i) {
-    if (Cluster_id[i]!=cid) {
+  _calc_cluster_center(cid, &ms);
+  int nterms = (int) gBoundedSkewTree->Nterms();
+  for (i = 0; i < nterms; ++i) {
+    if (Cluster_id[i] != cid) {
       pair[n].x = i;
       pair[n].y = cid;
-      PointType &qt = Node[ i   ].m_stnPt ;
-      pair[n].cost = pt2ms_distance(&(  qt     ), &ms);
+      PointType& qt = Node[i].m_stnPt;
+      pair[n].cost = pt2ms_distance(&(qt), &ms);
       n++;
     }
   }
-  assert(n>0 && n <= MAX_N_NODES);
+  assert(n > 0 && n <= MAX_N_NODES);
   qsort(pair, n, sizeof(PairType), sink_move_compare_inc);
-  n = min (n, size);
-  return(n);
+  n = min(n, size);
+  return (n);
 }
 
 /********************************************************************/
 /*                                                                  */
 /********************************************************************/
-int calc_all_cluster_neighbors(PairType pair[], int n_clusters, int size) {
-int i,j,m, n;
-PairType temp[MAX_N_NODES];
+int calc_all_cluster_neighbors(PairType pair[], int n_clusters, int size)
+{
+  int i, j, m, n;
+  PairType temp[MAX_N_NODES];
 
   n = 0;
-  for (i=0;i< n_clusters;++i) {
-    m = _calc_cluster_neighbors(i,temp, size);
-    for (j=0;j<m;++j) {
+  for (i = 0; i < n_clusters; ++i) {
+    m = _calc_cluster_neighbors(i, temp, size);
+    for (j = 0; j < m; ++j) {
       pair[n++] = temp[j];
     }
   }
-  assert(n>0 && n <= MAX_N_NODES);
+  assert(n > 0 && n <= MAX_N_NODES);
   qsort(pair, n, sizeof(PairType), sink_move_compare_inc);
-  n = min (n, size*n_clusters);
-  return(n);
+  n = min(n, size * n_clusters);
+  return (n);
 }
-

@@ -20,16 +20,16 @@
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-// FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-// CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-// OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
 ///////////////////////////////////////////////////////////////////////////////
-
 
 /*
 #**************************************************************************
@@ -43,27 +43,26 @@
 #ifndef _BST_SUB3_H
 #define _BST_SUB3_H
 
+#include "bst_header.h"
 
-typedef struct obstacletype {
+typedef struct obstacletype
+{
   int n_vertex;
   PointType vertex[4];
 } ObstacleType;
 
-typedef struct treenodetype {
+typedef struct treenodetype
+{
   double bbox[4];
   int parent, L, R, id, level;
 } TreeNodeType;
 
+void read_obstacle_file(const string& fn);
+void print_obstacles(const string& fn);
 
+int line_into_rectangle(PointType* p0, PointType* p1, ObstacleType* block);
+void print_path(FILE* f, PointType path[], int n);
 
-void read_obstacle_file( const string &fn) ;
-void print_obstacles( const string &fn) ;
-
-int line_into_rectangle (PointType  *p0, PointType *p1, 
-   ObstacleType * block) ;
-void print_path(FILE *f, PointType path[], int n) ;
-
-int modify_blocked_areas_no_detour(AreaType *area, AreaType new_area[]) ;
+int modify_blocked_areas_no_detour(AreaType* area, AreaType new_area[]);
 
 #endif
-

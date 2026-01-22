@@ -20,16 +20,16 @@
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-// FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-// CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-// OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
 ///////////////////////////////////////////////////////////////////////////////
-
 
 /*
 #**************************************************************************
@@ -40,67 +40,60 @@
 #**************************************************************************
 */
 
-
 #ifndef _BSTDME_H
 #define _BSTDME_H
 
-extern "C++"
-{
+extern "C++" {
 
-#include  <string>
+#include <string>
 
 using namespace std;
-class BstTree  ;
+class BstTree;
 
 /**************************************************/
 /**************************************************/
-class BST_GenTestcase {
-public:
-  /*  generate a testcase of n sinks */
-  static bool GenerateTestcase( unsigned n ) ;
-
-} ;
-/**************************************************/
-/**************************************************/
-class BST_DME 
+class BST_GenTestcase
 {
-
-public:
-  enum DelayModelType 
+ public:
+  /*  generate a testcase of n sinks */
+  static bool GenerateTestcase(unsigned n);
+};
+/**************************************************/
+/**************************************************/
+class BST_DME
+{
+ public:
+  enum DelayModelType
   {
-      LINEARMODEL  = 0,   
-      ELMOREMODEL , 
-      NumDelayModel          
+    LINEARMODEL = 0,
+    ELMOREMODEL,
+    NumDelayModel
   };
 
-public:
-  // constructor 
-  BST_DME ( 
-    const string &inputSinksFileName,
-    const string &inputTopologyFileName,
-    const string &inputObstructionFileName,
-    double skewBound,
-    DelayModelType delayModel ) ;
+ public:
+  // constructor
+  BST_DME(const string& inputSinksFileName,
+          const string& inputTopologyFileName,
+          const string& inputObstructionFileName,
+          double skewBound,
+          DelayModelType delayModel);
 
-  // destructor 
-  ~BST_DME() ; 
+  // destructor
+  ~BST_DME();
 
   /*************************************************/
   /* initiate the construction of BST */
   /*************************************************/
-  void ConstructTree ( void ) ;
+  void ConstructTree(void);
 
   /*************************************************/
   /* total length of the resulting BST after calling ConstructTree() ; */
   /*************************************************/
-  double TotalLength ( void ) const ;
+  double TotalLength(void) const;
 
-private:
-// data:
-   BstTree *m_bstdme ;
-   
-} ;
-
+ private:
+  // data:
+  BstTree* m_bstdme;
+};
 }
 #endif
-
