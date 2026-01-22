@@ -3298,7 +3298,7 @@ int pairs_to_merge(int n_nodes)
 
 /***********************************************************************/
 /***********************************************************************/
-double BstTree::TotalLength(void) const
+double BstTree::TotalLength() const
 {
   double Tcost = 0;
   double Tdist = 0;
@@ -3310,7 +3310,7 @@ double BstTree::TotalLength(void) const
 
 /***********************************************************************/
 /***********************************************************************/
-double BST_DME::TotalLength(void) const
+double BST_DME::TotalLength() const
 {
   return m_bstdme->TotalLength();
 }

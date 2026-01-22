@@ -247,12 +247,12 @@ class BstTree
   /*************************************************/
   /* initiate the construction of BST */
   /*************************************************/
-  void ConstructTree(void);
+  void ConstructTree();
 
   /*************************************************/
   /* total length of the resulting BST after calling ConstructTree() ; */
   /*************************************************/
-  double TotalLength(void) const;
+  double TotalLength() const;
 
   /*************************************************/
   /* for internal use only */
@@ -290,9 +290,10 @@ class BstTree
 
   string ObstructionFileName() const { return m_inputObstructionFileName; };
 
-  double SkewBound(void) const { return m_skewBound; };
 
-  double Orig_Skew_B(void) const { return m_skewBound; }
+  double SkewBound() const { return m_skewBound; };
+
+  double Orig_Skew_B() const { return m_skewBound; }
   bool LinearDelayModel() const
   {
     return m_delayModel == BST_DME::LINEARMODEL;

@@ -84,12 +84,12 @@ class BST_DME
   /*************************************************/
   /* initiate the construction of BST */
   /*************************************************/
-  void ConstructTree(void);
+  void ConstructTree();
 
   /*************************************************/
   /* total length of the resulting BST after calling ConstructTree() ; */
   /*************************************************/
-  double TotalLength(void) const;
+  double TotalLength() const;
 
  private:
   // data:
