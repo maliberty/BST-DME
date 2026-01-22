@@ -20,14 +20,15 @@
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-// FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-// CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-// OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
 ///////////////////////////////////////////////////////////////////////////////
 
 /****************************************************************************/
@@ -39,48 +40,45 @@
 #ifndef _F_COORD_H
 #define _F_COORD_H
 
-#include "BiStates.h"
 #include "BaseDefine.h"
+#include "BiStates.h"
 
-extern "C++"
+extern "C++" {
+
+// NN  is a data type used for the coordinates.
+// NNDD is a type with a larger precision.
+template <class NN, class NNDD, bool DOCHECK = true>
+class F_Coord
 {
+ private:
+  NN m_coord[2];
 
-  // NN  is a data type used for the coordinates.
-  // NNDD is a type with a larger precision.
-  template <class NN, class NNDD, bool DOCHECK = true>
-  class F_Coord
+ public:
+  // constructor
+  F_Coord(NN x, NN y) { m_coord[0] = x, m_coord[1] = y; };
+
+  F_Coord(const F_Coord& p2)
   {
+    m_coord[0] = p2.m_coord[0];
+    m_coord[1] = p2.m_coord[1];
+  };
 
-    private:
-        NN  m_coord [ 2] ;
-    public:
-        // constructor 
-        F_Coord (NN  x, NN  y ) {
-          m_coord[ 0] = x, m_coord[ 1 ] = y;
-        } ;
-
-        F_Coord (const F_Coord& p2) {
-            m_coord[0] = p2.m_coord[0];
-            m_coord[1] = p2.m_coord[1];
-        } ;
-
-        // member function  
-        NN  operator[] ( TwoStates i) const {
-            return m_coord[i];
-        } ;
-    } ;
-    template <class NN, class NNDD, bool DOCHECK = true>
-    class F_Point {
-    public:
-      F_Point () {
-        x=y=0;
-        max=min=0;
-        t=0 ;
-      } ;
-      NN     x,y;   /* coordinate */ 
-      NN     max, min;  /* (max, min) delays after merging */
-      NN     t;    /* usded for sorting */
-    } ;
-
+  // member function
+  NN operator[](TwoStates i) const { return m_coord[i]; };
+};
+template <class NN, class NNDD, bool DOCHECK = true>
+class F_Point
+{
+ public:
+  F_Point()
+  {
+    x = y = 0;
+    max = min = 0;
+    t = 0;
+  };
+  NN x, y;     /* coordinate */
+  NN max, min; /* (max, min) delays after merging */
+  NN t;        /* usded for sorting */
+};
 }
 #endif
